@@ -23,14 +23,19 @@ Alternatively :
 
 ### Prerequisites
 
-Several standard packages are needed to build the toolchain.  On Ubuntu,
-executing the following command should suffice:
+Several standard packages are needed to build the toolchain.  
+
+On Ubuntu, executing the following command should suffice:
 
     $ sudo apt-get install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
 
 On Fedora/CentOS/RHEL OS, executing the following command should suffice:
 
     $ sudo yum install autoconf automake python3 libmpc-devel mpfr-devel gmp-devel gawk  bison flex texinfo patchutils gcc gcc-c++ zlib-devel expat-devel
+    
+On Arch Linux, executing the following command should suffice:
+
+    $ pacman -Syyu autoconf automake curl python3 mpc mpfr gmp gawk base-devel bison flex texinfo gperf libtool patchutils bc zlib expat
 
 On OS X, you can use [Homebrew](http://brew.sh) to install the dependencies:
 
@@ -122,17 +127,59 @@ devtoolset-7 works.
 There are a number of additional options that may be passed to
 configure.  See './configure --help' for more details.
 
+#### Build with customized multi-lib configure.
+
+`--with-multilib-generator=` can specify what multilibs to build.  The argument
+is a semicolon separated list of values, possibly consisting of a single value.
+Currently only supported for riscv*-*-elf*.  The accepted values and meanings
+are given below.
+
+Every config is constructed with four components: architecture string, ABI,
+reuse rule with architecture string and reuse rule with sub-extension.
+
+Re-use part support expansion operator (*) to simplify the combination of
+different sub-extensions, example 4 demonstrate how it uses and works.
+
+Example 1: Add multi-lib support for rv32i with ilp32.
+```
+./configure --with-multilib-generator="rv32i-ilp32--"
+```
+
+Example 2: Add multi-lib support for rv32i with ilp32 and rv32imafd with ilp32.
+
+```
+./configure --with-multilib-generator="rv32i-ilp32--;rv32imafd-ilp32--"
+```
+
+Example 3: Add multi-lib support for rv32i with ilp32; rv32im with ilp32 and
+rv32ic with ilp32 will reuse this multi-lib set.
+```
+./configure --with-multilib-generator="rv32i-ilp32-rv32im-c"
+```
+
+Example 4: Add multi-lib support for rv64ima with lp64; rv64imaf with lp64,
+rv64imac with lp64 and rv64imafc with lp64 will reuse this multi-lib set.
+```
+./configure --with-multilib-generator="rv64ima-lp64--f*c"
+```
+
 ### Test Suite
 
-The DejaGnu test suite has been ported to RISC-V.  This can run with GDB
-simulator for elf toolchain or Qemu for linux toolchain, and GDB simulator
-doesn't support floating-point.
+The Dejagnu test suite has been ported to RISC-V. This can be run with a
+simulator for the elf and linux toolchains. The simulator can be selected
+by the SIM variable in the Makefile, e.g. SIM=qemu, SIM=gdb, or SIM=spike
+(experimental). However, the testsuite allowlist is only mintained for qemu.
+Other simulators might get extra failures.
 To test GCC, run the following commands:
 
     ./configure --prefix=$RISCV --disable-linux --with-arch=rv64ima # or --with-arch=rv32ima
     make newlib
-    make report-newlib
+    make report-newlib SIM=gdb # Run with gdb simulator
 
     ./configure --prefix=$RISCV
     make linux
-    make report-linux
+    make report-linux SIM=qemu # Run with qemu
+
+Note:
+- spike only support rv64* bare-metal/elf toolchain.
+- gdb simulator only support bare-metal/elf toolchain.

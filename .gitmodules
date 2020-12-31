@@ -14,7 +14,7 @@
 	url = https://github.com/riscv/riscv-dejagnu.git
 [submodule "riscv-newlib"]
 	path = riscv-newlib
-	url = https://github.com/riscv/riscv-newlib.git
+	url = git://sourceware.org/git/newlib-cygwin.git
 [submodule "riscv-gdb"]
 	path = riscv-gdb
 	url = ../riscv-binutils-gdb.git

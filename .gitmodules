@@ -1,11 +1,11 @@
 [submodule "riscv-binutils"]
 	path = riscv-binutils
 	url = ../riscv-binutils-gdb.git
-  branch = develop-openql
+  branch = develop-openql-wip
 [submodule "riscv-gcc"]
 	path = riscv-gcc
 	url = ../riscv-gcc.git
-  branch = develop-openql
+  branch = develop-openql-wip
 [submodule "riscv-glibc"]
 	path = riscv-glibc
 	url = https://github.com/riscv/riscv-glibc.git
@@ -18,7 +18,7 @@
 [submodule "riscv-gdb"]
 	path = riscv-gdb
 	url = ../riscv-binutils-gdb.git
-  branch = develop-openql
+  branch = develop-openql-wip
 [submodule "qemu"]
 	path = qemu
 	url = https://git.qemu.org/git/qemu.git

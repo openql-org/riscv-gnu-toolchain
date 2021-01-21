@@ -1,9 +1,11 @@
 [submodule "riscv-binutils"]
 	path = riscv-binutils
 	url = ../riscv-binutils-gdb.git
+	branch = niisato-develop-riscv-binutils
 [submodule "riscv-gcc"]
 	path = riscv-gcc
 	url = ../riscv-gcc.git
+	branch = niisato-develop
 [submodule "riscv-glibc"]
 	path = riscv-glibc
 	url = https://github.com/riscv/riscv-glibc.git
@@ -16,3 +18,4 @@
 [submodule "riscv-gdb"]
 	path = riscv-gdb
 	url = ../riscv-binutils-gdb.git
+	branch = niisato-develop-riscv-gdb
